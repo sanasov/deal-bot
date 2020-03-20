@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <appender name="FILE-ENGINE" class="ch.qos.logback.core.FileAppender">
+        <file>logs/turnkeyDeal.log</file>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{35} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - request_url:%X{request_url} - request_id:%X{request_id} - cas_id:%X{cas_id} - %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+
+
+    <!-- Strictly speaking, the level attribute is not necessary since -->
+    <!-- the level of the root level is set to DEBUG by default.       -->
+
+<!--    <logger name="ru.igrey.dev" level="DEBUG"-->
+<!--            additivity="false">-->
+<!--        <appender-ref ref="FILE-ENGINE"/>-->
+<!--    </logger>-->
+
+
+    <root level="INFO">
+<!--        <appender-ref ref="FILE-ENGINE"/>-->
+        <appender-ref ref="STDOUT"/>
+    </root>
+</configuration>
