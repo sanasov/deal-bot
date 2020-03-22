@@ -18,8 +18,6 @@ import static ru.igrey.dev.config.DealProps.*;
 
 @Slf4j
 public class BeanConfig {
-
-
     private static DealBot dealBot;
     private static CasService casService;
     private static DealService dealService;

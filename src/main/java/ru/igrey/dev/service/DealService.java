@@ -18,6 +18,7 @@ public class DealService {
 
     public Deal getDeal(Long dealId) {
         DealEntity dealEntity = dealDao.findById(dealId);
+        if (dealEntity == null) return null;
         return new Deal(dealEntity.getId(),
                 dealEntity.getDealStatusId(),
                 dealEntity.getMikId(),
