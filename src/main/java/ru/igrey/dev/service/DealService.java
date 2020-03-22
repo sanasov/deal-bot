@@ -1,6 +1,7 @@
 package ru.igrey.dev.service;
 
 import lombok.RequiredArgsConstructor;
+import ru.igrey.dev.dao.CrmTaskDao;
 import ru.igrey.dev.dao.DealDao;
 import ru.igrey.dev.dao.DocumentDao;
 import ru.igrey.dev.domain.Deal;
@@ -15,6 +16,7 @@ public class DealService {
     private final DealDao dealDao;
     private final DocumentDao documentDao;
     private final CasService casService;
+    private final CrmTaskDao crmTaskDao;
 
     public Deal getDeal(Long dealId) {
         DealEntity dealEntity = dealDao.findById(dealId);
@@ -26,6 +28,7 @@ public class DealService {
                 dealEntity.getTypeId(),
                 dealEntity.getArchived(),
                 casService.casUser(dealEntity.getAuthorId()),
+                crmTaskDao.crmTask(dealId),
                 new Documents(
                         documentDao.findAllNotClientDocsByDealId(dealId),
                         documentDao.countUploadedDocuments(dealId)

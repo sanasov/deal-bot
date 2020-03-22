@@ -7,15 +7,24 @@ import static ru.igrey.dev.config.DealProps.*;
 
 public class JdbcTemplateFactory {
 
-    private static JdbcTemplate jdbcTemplate;
 
     public JdbcTemplate projectx() {
         SimpleDataSource dataSource = new SimpleDataSource();
         dataSource.setUser(USER);
-        dataSource.setPassword(PASSWORD);
+        dataSource.setPassword(PX_PASSWORD);
+        dataSource.setServerName(PX_HOST);
+        dataSource.setPortNumber(PX_PORT);
+        dataSource.setDatabaseName(PX_DB);
+        return new JdbcTemplate(dataSource);
+    }
+
+    public JdbcTemplate mastersber() {
+        SimpleDataSource dataSource = new SimpleDataSource();
+        dataSource.setUser(USER);
+        dataSource.setPassword(MS_PASSWORD);
         dataSource.setServerName(HOST);
-        dataSource.setPortNumber(PORT);
-        dataSource.setDatabaseName(DB);
+        dataSource.setPortNumber(MS_PORT);
+        dataSource.setDatabaseName(MS_DB);
         return new JdbcTemplate(dataSource);
     }
 

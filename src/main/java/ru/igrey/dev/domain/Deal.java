@@ -15,6 +15,7 @@ public class Deal {
     private final Long typeId;
     private final Boolean archived;
     private final Cas author;
+    private final String crmTasks;
     private final Documents documents;
 
     @Override
@@ -22,6 +23,7 @@ public class Deal {
         return header()
                 + "Автор(" + author.toString() + ")" + "\n"
                 + "mikId: " + mikId + ", officeId: " + officeId + "\n"
+                + "CRM: " + crmTasks + "\n"
                 + documents.toString();
     }
 
