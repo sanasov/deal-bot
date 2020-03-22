@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import ru.igrey.dev.dao.CrmTaskDao;
 import ru.igrey.dev.dao.DealDao;
 import ru.igrey.dev.dao.DocumentDao;
+import ru.igrey.dev.dao.PXDao;
 import ru.igrey.dev.domain.Deal;
 import ru.igrey.dev.domain.Documents;
 import ru.igrey.dev.entity.DealEntity;
@@ -17,6 +18,7 @@ public class DealService {
     private final DocumentDao documentDao;
     private final CasService casService;
     private final CrmTaskDao crmTaskDao;
+    private final PXDao pxDao;
 
     public Deal getDeal(Long dealId) {
         DealEntity dealEntity = dealDao.findById(dealId);
@@ -32,7 +34,8 @@ public class DealService {
                 new Documents(
                         documentDao.findAllNotClientDocsByDealId(dealId),
                         documentDao.countUploadedDocuments(dealId)
-                )
+                ),
+                pxDao.lastRequisition(dealId)
         );
     }
 }

@@ -3,6 +3,7 @@ package ru.igrey.dev.domain;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import ru.igrey.dev.entity.RisasRequisitionEntity;
 
 @RequiredArgsConstructor
 @Getter
@@ -17,6 +18,7 @@ public class Deal {
     private final Cas author;
     private final String crmTasks;
     private final Documents documents;
+    private final RisasRequisitionEntity risasRequisitionEntity;
 
     @Override
     public String toString() {
@@ -24,6 +26,7 @@ public class Deal {
                 + "Автор(" + author.toString() + ")" + "\n"
                 + "mikId: " + mikId + ", officeId: " + officeId + "\n"
                 + "CRM: " + crmTasks + "\n"
+                + "ПЭ: " + risasRequisitionEntity + "\n"
                 + documents.toString();
     }
 
