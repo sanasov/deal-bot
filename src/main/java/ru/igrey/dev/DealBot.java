@@ -8,10 +8,9 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import ru.igrey.dev.domain.CasUsers;
 import ru.igrey.dev.service.CasService;
+import ru.igrey.dev.service.DealService;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
@@ -23,13 +22,15 @@ import java.util.stream.Stream;
  */
 @Slf4j
 public class DealBot extends TelegramLongPollingBot {
-    private Long ANASOV_ID = 154090812L;
-    private List<Long> USERS = Arrays.asList(ANASOV_ID);
-    private CasService casService;
+    private final Long ANASOV_ID = 154090812L;
+    private final List<Long> USERS = Arrays.asList(ANASOV_ID);
+    private final CasService casService;
+    private final DealService dealService;
 
-    public DealBot(DefaultBotOptions defaultBotOptions, CasService casService) {
+    public DealBot(DefaultBotOptions defaultBotOptions, CasService casService, DealService dealService) {
         super(defaultBotOptions);
         this.casService = casService;
+        this.dealService = dealService;
     }
 
     @Override
@@ -47,11 +48,10 @@ public class DealBot extends TelegramLongPollingBot {
         }
     }
 
-    private void handlePrivateIncomingMessage(Message incomingMessage) {
-        Long chatId = incomingMessage.getChatId();
-        String incomingMessageText = incomingMessage.getText();
-        CasUsers casUsers = casService.casUsers(parseIds(incomingMessageText));
-        sendTextMessage(chatId, casUsers.toString());
+    private void handlePrivateIncomingMessage(Message message) {
+        String messageText = message.getText();
+//        CasUsers result = casService.casUsers(parseIds(incomingMessageText));
+        sendTextMessage(message.getChatId(), dealService.getDeal(new Long(messageText)).toString());
     }
 
     private Set<Long> parseIds(String idsAsString) {
@@ -76,12 +76,12 @@ public class DealBot extends TelegramLongPollingBot {
 
     @Override
     public String getBotUsername() {
-        return "";
+        return "@turnkeyDealBot";
     }
 
     @Override
     public String getBotToken() {
-        return "";
+        return "1131321438:AAFoAsa1j4l5apz5H6NVI_MHGUqPC2t_X6U";
     }
 
 }

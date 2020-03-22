@@ -1,9 +1,39 @@
 package ru.igrey.dev.domain;
 
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
-@Data
+@RequiredArgsConstructor
+@Getter
+@EqualsAndHashCode
 public class Deal {
-    private Long id;
-    private Cas author;
+    private final Long id;
+    private final Long dealStatusId;
+    private final Long mikId;
+    private final Long officeId;
+    private final Long typeId;
+    private final Boolean archived;
+    private final Cas author;
+    private final Documents documents;
+
+    @Override
+    public String toString() {
+        return header()
+                + "Автор(" + author.toString() + ")" + "\n"
+                + "mikId: " + mikId + ", officeId: " + officeId + "\n"
+                + documents.toString();
+    }
+
+    private String header() {
+        String title = "Неизвестный тип сделки";
+        String archivedStr = archived ? ", archived" : "";
+        if (typeId == 55561) title = "Упрощеная сделка";
+        if (typeId == 55562) title = "СПК";
+        if (typeId == 55560) title = "Неипотечная сделка";
+        if (typeId == 55550) title = "Ипотечная сделка";
+        return title + "(№ " + id + ", status: " + dealStatusId + archivedStr + ")" + "\n";
+
+    }
+
 }

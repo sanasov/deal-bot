@@ -45,5 +45,6 @@ public class CasService {
     private void initHeader(HttpGet request) {
         request.setHeader("Content-Type", "application/json");
         request.setHeader("Accept", "application/json");
+        request.setHeader("Authorization", "Basic YXBpOnBhc3M=");
     }
 }
