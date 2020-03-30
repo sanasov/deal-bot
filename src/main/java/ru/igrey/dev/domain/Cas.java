@@ -16,6 +16,6 @@ public class Cas {
 
     @Override
     public String toString() {
-        return "casId: " + id + " phone: " + phone;// + " authorities=" + authorities;
+        return "casId: " + id + ", phone: " + phone;// + " authorities=" + authorities;
     }
 }

@@ -9,6 +9,7 @@ import java.util.List;
 public class ServiceDeal {
     @SerializedName(value = "service_type_id")
     private Long id;
+    private Boolean active;
 
     @Override
     public String toString() {

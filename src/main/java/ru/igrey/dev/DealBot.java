@@ -72,6 +72,8 @@ public class DealBot extends TelegramLongPollingBot {
             sendTextMessage(message.getChatId(), dealService.getDeal(new Long(messageText)).toString());
         } else if (currentOperation == OperationType.PHONES_BY_DEAL_ID) {
             sendTextMessage(message.getChatId(), dealService.getPhonesByDealIds(parseIds(messageText)));
+        }else if (currentOperation == OperationType.PHONES_BY_CAS_ID) {
+            sendTextMessage(message.getChatId(), dealService.getPhonesByCasIds(parseIds(messageText)));
         } else if (currentOperation == OperationType.DEALS_BY_CAS_ID) {
 
         }

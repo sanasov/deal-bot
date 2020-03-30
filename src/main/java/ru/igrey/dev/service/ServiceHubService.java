@@ -8,15 +8,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
-import ru.igrey.dev.dao.CrmTaskDao;
-import ru.igrey.dev.dao.DealDao;
-import ru.igrey.dev.dao.DocumentDao;
-import ru.igrey.dev.dao.PXDao;
-import ru.igrey.dev.domain.Cas;
-import ru.igrey.dev.domain.Deal;
-import ru.igrey.dev.domain.Documents;
 import ru.igrey.dev.domain.ServiceDeal;
-import ru.igrey.dev.entity.DealEntity;
 
 import java.util.Arrays;
 import java.util.Collections;

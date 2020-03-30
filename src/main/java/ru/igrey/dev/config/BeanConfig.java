@@ -24,10 +24,10 @@ public class BeanConfig {
     private static DealService dealService;
     private static DealDao dealDao;
     private static DocumentDao documentDao;
-    private static CrmTaskDao crmTaskDao;
+    private static CrmDao crmDao;
     private static PXDao pxDao;
     private static NamedParameterJdbcTemplate jdbcTemplatePX;
-    private static JdbcTemplate jdbcTemplateMS;
+    private static NamedParameterJdbcTemplate jdbcTemplateMS;
 
 
     public static DealBot dealBot() {
@@ -83,11 +83,11 @@ public class BeanConfig {
         return documentDao;
     }
 
-    static CrmTaskDao crmTaskDao() {
-        if (crmTaskDao == null) {
-            crmTaskDao = new CrmTaskDao(jdbcTemplateMS());
+    static CrmDao crmTaskDao() {
+        if (crmDao == null) {
+            crmDao = new CrmDao(jdbcTemplateMS());
         }
-        return crmTaskDao;
+        return crmDao;
     }
 
     static PXDao pxDao() {
@@ -105,7 +105,7 @@ public class BeanConfig {
         return jdbcTemplatePX;
     }
 
-    static JdbcTemplate jdbcTemplateMS() {
+    static NamedParameterJdbcTemplate jdbcTemplateMS() {
         if (jdbcTemplateMS == null) {
             jdbcTemplateMS = new JdbcTemplateFactory().mastersber();
         }
