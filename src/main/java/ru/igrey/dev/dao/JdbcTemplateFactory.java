@@ -2,20 +2,21 @@ package ru.igrey.dev.dao;
 
 import org.postgresql.jdbc2.optional.SimpleDataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 import static ru.igrey.dev.config.DealProps.*;
 
 public class JdbcTemplateFactory {
 
 
-    public JdbcTemplate projectx() {
+    public NamedParameterJdbcTemplate projectx() {
         SimpleDataSource dataSource = new SimpleDataSource();
         dataSource.setUser(USER);
         dataSource.setPassword(PX_PASSWORD);
         dataSource.setServerName(PX_HOST);
         dataSource.setPortNumber(PX_PORT);
         dataSource.setDatabaseName(PX_DB);
-        return new JdbcTemplate(dataSource);
+        return new NamedParameterJdbcTemplate(dataSource);
     }
 
     public JdbcTemplate mastersber() {

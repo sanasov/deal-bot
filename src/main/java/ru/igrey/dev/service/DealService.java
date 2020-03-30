@@ -8,6 +8,11 @@ import ru.igrey.dev.dao.PXDao;
 import ru.igrey.dev.domain.Deal;
 import ru.igrey.dev.domain.Documents;
 import ru.igrey.dev.entity.DealEntity;
+import ru.igrey.dev.entity.RisasRequisitionEntity;
+
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Created by sanasov on 10.04.2017.
@@ -17,6 +22,7 @@ public class DealService {
     private final DealDao dealDao;
     private final DocumentDao documentDao;
     private final CasService casService;
+    private final ServiceHubService serviceHubService;
     private final CrmTaskDao crmTaskDao;
     private final PXDao pxDao;
 
@@ -35,7 +41,15 @@ public class DealService {
                         documentDao.findAllNotClientDocsByDealId(dealId),
                         documentDao.countUploadedDocuments(dealId)
                 ),
+                serviceHubService.getServices(dealId),
                 pxDao.lastRequisition(dealId)
         );
     }
+
+    public String getPhonesByDealIds(Set<Long> dealIds) {
+        return "dealId    casId   phone\n" + dealDao.findByIds(dealIds).stream()
+                .map(deal -> deal.getId() + "\t" + deal.getAuthorId() + "\t" + casService.casUser(deal.getAuthorId()).getPhone())
+                .reduce((a, b) -> a + "\n" + b).orElse("");
+    }
+
 }
