@@ -44,10 +44,6 @@ public class DealService {
         );
     }
 
-    public String getPhonesByCasIds(Set<Long> casIds) {
-        return "dealId    casId   phone\n" + casService.casUsers(casIds);
-    }
-
     public String getPhonesByDealIds(Set<Long> dealIds) {
         return "dealId    casId   phone\n" + dealDao.findByIds(dealIds).stream()
                 .map(deal -> deal.getId() + "\t" + deal.getAuthorId() + "\t" + casService.casUser(deal.getAuthorId()).getPhone())
