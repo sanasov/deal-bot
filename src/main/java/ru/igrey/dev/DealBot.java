@@ -23,6 +23,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static ru.igrey.dev.config.DealProps.BOT_NAME;
+import static ru.igrey.dev.config.DealProps.BOT_TOKEN;
 import static ru.igrey.dev.constant.Dictionaries.CRM_TASKS;
 import static ru.igrey.dev.constant.Dictionaries.SERVICES;
 import static ru.igrey.dev.constant.OperationType.valueOf;
@@ -145,12 +147,12 @@ public class DealBot extends TelegramLongPollingBot {
 
     @Override
     public String getBotUsername() {
-        return "@turnkeyDealBot";
+        return BOT_NAME;
     }
 
     @Override
     public String getBotToken() {
-        return "1131321438:AAFoAsa1j4l5apz5H6NVI_MHGUqPC2t_X6U";
+        return BOT_TOKEN;
     }
 
 }
