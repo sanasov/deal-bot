@@ -9,6 +9,7 @@ import ru.igrey.dev.domain.Deal;
 import ru.igrey.dev.domain.Documents;
 import ru.igrey.dev.entity.DealEntity;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -26,6 +27,7 @@ public class DealService {
     public Deal getDeal(Long dealId) {
         DealEntity dealEntity = dealDao.findById(dealId);
         if (dealEntity == null) return null;
+        List<String> crmTasks = crmDao.crmTask(dealId);
         return new Deal(dealEntity.getId(),
                 dealEntity.getDealStatusId(),
                 casService.casUser(dealEntity.getMikId()),
@@ -33,7 +35,7 @@ public class DealService {
                 dealEntity.getTypeId(),
                 dealEntity.getArchived(),
                 casService.casUser(dealEntity.getAuthorId()),
-                crmDao.crmTask(dealId),
+                crmTasks.isEmpty() ? "" : crmTasks.get(0),
                 new Documents(
                         documentDao.findAllNotClientDocsByDealId(dealId),
                         documentDao.countUploadedDocuments(dealId)

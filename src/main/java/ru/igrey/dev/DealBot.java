@@ -35,7 +35,8 @@ import static ru.igrey.dev.constant.OperationType.valueOf;
 @Slf4j
 public class DealBot extends TelegramLongPollingBot {
     private final Long ANASOV_ID = 154090812L;
-    private final List<Long> USERS = Arrays.asList(ANASOV_ID);
+    private final Long KESEL_ID = 95940792L;
+    private final List<Long> USERS = Arrays.asList(ANASOV_ID, KESEL_ID);
     private final CasService casService;
     private final DealService dealService;
     public static OperationType currentOperation = OperationType.DEAL_INFO;
@@ -48,11 +49,22 @@ public class DealBot extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
+        if (!isAuthorize(update)) return;
         if (update.hasMessage()) {
             handleIncomingMessage(update.getMessage());
         } else if (update.hasCallbackQuery()) {
             handleButtonClick(update.getCallbackQuery());
         }
+    }
+
+    private Boolean isAuthorize(Update update) {
+        Long userId = 0L;
+        if (update.hasMessage()) {
+            userId = update.getMessage().getChatId();
+        } else if (update.hasCallbackQuery()) {
+            userId = update.getCallbackQuery().getFrom().getId().longValue();
+        }
+        return USERS.contains(userId);
     }
 
     private void handleIncomingMessage(Message message) {
@@ -76,7 +88,6 @@ public class DealBot extends TelegramLongPollingBot {
         } else if (currentOperation == OperationType.PHONES_BY_CAS_ID) {
             sendTextMessage(message.getChatId(), casService.casUsers(parseIds(messageText)).toString());
         } else if (currentOperation == OperationType.DEALS_BY_CAS_ID) {
-
         }
     }
 

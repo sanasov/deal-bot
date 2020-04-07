@@ -21,12 +21,12 @@ public class CrmDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public String crmTask(Long dealId) {
+    public List<String> crmTask(Long dealId) {
         String sql = "select STRING_AGG(task_type_id || '(' || status_id || ')', '  ' order by task_type_id)" +
                 "from crm_task where task_type_id in (740, 750, 760, 770, 780, 783) \n" +
                 " and deal_id = :dealId " +
                 "group by deal_id;";
-        return (String) jdbcTemplate.queryForObject(sql, Collections.singletonMap("dealId", dealId), String.class);
+        return jdbcTemplate.queryForList(sql, Collections.singletonMap("dealId", dealId), String.class);
     }
 
     public List<String> schedule(Long dealId) {
