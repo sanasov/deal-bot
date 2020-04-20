@@ -17,14 +17,11 @@ import ru.igrey.dev.constant.OperationType;
 import ru.igrey.dev.service.CasService;
 import ru.igrey.dev.service.DealService;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static ru.igrey.dev.config.DealProps.BOT_NAME;
-import static ru.igrey.dev.config.DealProps.BOT_TOKEN;
+import static ru.igrey.dev.config.DealProps.*;
 import static ru.igrey.dev.constant.Dictionaries.CRM_TASKS;
 import static ru.igrey.dev.constant.Dictionaries.SERVICES;
 import static ru.igrey.dev.constant.OperationType.valueOf;
@@ -34,10 +31,6 @@ import static ru.igrey.dev.constant.OperationType.valueOf;
  */
 @Slf4j
 public class DealBot extends TelegramLongPollingBot {
-    private final Long ANASOV_ID = 154090812L;
-    private final Long KESEL_ID = 95940792L;
-    private final Long MELNIKOVA_ID = 152772183L;
-    private final List<Long> USERS = Arrays.asList(ANASOV_ID, KESEL_ID, MELNIKOVA_ID);
     private final CasService casService;
     private final DealService dealService;
     public static OperationType currentOperation = OperationType.DEAL_INFO;
@@ -101,7 +94,7 @@ public class DealBot extends TelegramLongPollingBot {
 
     private void sendTextMessage(Long chatId, String responseMessage) {
         SendMessage sendMessage = new SendMessage();
-        sendMessage.setChatId(USERS.contains(chatId) ? chatId : ANASOV_ID)
+        sendMessage.setChatId(chatId)
                 .enableMarkdown(false)
                 .enableHtml(true)
                 .setText(responseMessage);
