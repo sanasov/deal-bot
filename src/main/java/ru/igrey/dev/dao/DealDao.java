@@ -1,8 +1,10 @@
 package ru.igrey.dev.dao;
 
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import ru.igrey.dev.dao.mapper.DealHistoryMapper;
 import ru.igrey.dev.dao.mapper.DealMapper;
 import ru.igrey.dev.entity.DealEntity;
+import ru.igrey.dev.entity.DealHistoryEntity;
 
 import java.util.Collections;
 import java.util.List;
@@ -20,6 +22,13 @@ public class DealDao {
         List<DealEntity> entities = jdbcTemplate.query(
                 sql, Collections.singletonMap("id", id), new DealMapper());
         return entities.isEmpty() ? null : entities.get(0);
+    }
+
+    public List<DealHistoryEntity> findLastHistoryById(Long dealId) {
+        String sql = "SELECT * FROM ms_deal.deal_history WHERE DEAL_ID = :dealId ORDER BY ID DESC LIMIT 1";
+        List<DealHistoryEntity> entities = jdbcTemplate.query(
+                sql, Collections.singletonMap("dealId", dealId), new DealHistoryMapper());
+        return entities;
     }
 
     public List<DealEntity> findByAuthor(Long authorId) {

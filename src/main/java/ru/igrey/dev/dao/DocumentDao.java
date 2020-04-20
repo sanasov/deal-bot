@@ -26,7 +26,7 @@ public class DocumentDao {
     }
 
     public Integer countUploadedDocuments(Long dealId) {
-        String sql = "SELECT count(*) FROM ms_deal.deal_document WHERE DEAL_ID = ? AND DOCUMENT_TYPE_ID = 20750 AND modified_by <> 1";
+        String sql = "SELECT count(*) FROM ms_deal.deal_document WHERE DEAL_ID = :dealId AND DOCUMENT_TYPE_ID = 20750 AND modified_by <> 1";
         return jdbcTemplate.queryForInt(sql, Collections.singletonMap("dealId", dealId));
     }
 

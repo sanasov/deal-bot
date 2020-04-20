@@ -3,6 +3,7 @@ package ru.igrey.dev.domain;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import ru.igrey.dev.entity.DealHistoryEntity;
 import ru.igrey.dev.entity.RisasRequisitionEntity;
 
 import java.util.List;
@@ -23,6 +24,7 @@ public class Deal {
     private final List<ServiceDeal> services;
     private final List<String> schedules;
     private final List<RisasRequisitionEntity> risasRequisitions;
+    private final List<DealHistoryEntity> lastHistory;
 
     @Override
     public String toString() {
@@ -33,6 +35,7 @@ public class Deal {
                 + "CRM: " + crmTasks + "\n"
                 + "ПЭ: " + risasRequisitions + "\n"
                 + "Сервисы: " + services + "\n"
+                + "История: " + lastHistory + "\n"
                 + documents.toString();
     }
 

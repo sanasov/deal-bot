@@ -22,7 +22,7 @@ public class CrmDao {
     }
 
     public List<String> crmTask(Long dealId) {
-        String sql = "select STRING_AGG(task_type_id || '(' || status_id || ')', '  ' order by task_type_id)" +
+        String sql = "select STRING_AGG(CONCAT(task_type_id, '(',status_id,')'), '  ' order by task_type_id)" +
                 "from crm_task where task_type_id in (740, 750, 760, 770, 780, 783) \n" +
                 " and deal_id = :dealId " +
                 "group by deal_id;";
@@ -30,7 +30,7 @@ public class CrmDao {
     }
 
     public List<String> schedule(Long dealId) {
-        String sql = "select date || ' mikId: ' || modified_by from crm_activity where type_id in (2, 44) and active = true and deal_id = :dealId";
+        String sql = "select CONCAT(date,' mikId: ',modified_by) from crm_activity where type_id in (2, 44) and active = true and deal_id = :dealId";
         return jdbcTemplate.queryForList(sql, Collections.singletonMap("dealId", dealId), String.class);
     }
 

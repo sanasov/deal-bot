@@ -42,7 +42,8 @@ public class DealService {
                 ),
                 serviceHubService.getServices(dealId),
                 crmDao.schedule(dealId),
-                pxDao.lastRequisition(dealId)
+                pxDao.lastRequisition(dealId),
+                dealDao.findLastHistoryById(dealId)
         );
     }
 

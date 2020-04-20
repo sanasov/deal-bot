@@ -36,7 +36,8 @@ import static ru.igrey.dev.constant.OperationType.valueOf;
 public class DealBot extends TelegramLongPollingBot {
     private final Long ANASOV_ID = 154090812L;
     private final Long KESEL_ID = 95940792L;
-    private final List<Long> USERS = Arrays.asList(ANASOV_ID, KESEL_ID);
+    private final Long MELNIKOVA_ID = 152772183L;
+    private final List<Long> USERS = Arrays.asList(ANASOV_ID, KESEL_ID, MELNIKOVA_ID);
     private final CasService casService;
     private final DealService dealService;
     public static OperationType currentOperation = OperationType.DEAL_INFO;
