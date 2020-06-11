@@ -21,7 +21,9 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static ru.igrey.dev.config.DealProps.*;
+import static ru.igrey.dev.config.DealProps.BOT_NAME;
+import static ru.igrey.dev.config.DealProps.BOT_TOKEN;
+import static ru.igrey.dev.config.DealProps.USERS;
 import static ru.igrey.dev.constant.Dictionaries.CRM_TASKS;
 import static ru.igrey.dev.constant.Dictionaries.SERVICES;
 import static ru.igrey.dev.constant.OperationType.valueOf;
@@ -101,7 +103,7 @@ public class DealBot extends TelegramLongPollingBot {
         try {
             execute(sendMessage);
         } catch (TelegramApiException e) {
-            log.error(e.getMessage(), e);
+            log.error(e.getMessage());
         }
     }
 

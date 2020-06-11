@@ -29,4 +29,13 @@ public class JdbcTemplateFactory {
     }
 
 
+    public NamedParameterJdbcTemplate jdbcTemplateMSDeal() {
+        SimpleDataSource dataSource = new SimpleDataSource();
+        dataSource.setUser(USER);
+        dataSource.setPassword(MS_DEAL_PASSWORD);
+        dataSource.setServerName(MS_DEAL_HOST);
+        dataSource.setPortNumber(MS_DEAL_PORT);
+        dataSource.setDatabaseName(MS_DEAL_DB);
+        return new NamedParameterJdbcTemplate(dataSource);
+    }
 }

@@ -28,6 +28,7 @@ public class BeanConfig {
     private static PXDao pxDao;
     private static NamedParameterJdbcTemplate jdbcTemplatePX;
     private static NamedParameterJdbcTemplate jdbcTemplateMS;
+    private static NamedParameterJdbcTemplate jdbcTemplateMSDeal;
 
 
     public static DealBot dealBot() {
@@ -71,14 +72,14 @@ public class BeanConfig {
 
     static DealDao dealDao() {
         if (dealDao == null) {
-            dealDao = new DealDao(jdbcTemplatePX());
+            dealDao = new DealDao(jdbcTemplateMSDeal());
         }
         return dealDao;
     }
 
     static DocumentDao documentDao() {
         if (documentDao == null) {
-            documentDao = new DocumentDao(jdbcTemplatePX());
+            documentDao = new DocumentDao(jdbcTemplateMSDeal());
         }
         return documentDao;
     }
@@ -110,5 +111,12 @@ public class BeanConfig {
             jdbcTemplateMS = new JdbcTemplateFactory().mastersber();
         }
         return jdbcTemplateMS;
+    }
+
+    static NamedParameterJdbcTemplate jdbcTemplateMSDeal() {
+        if (jdbcTemplateMSDeal == null) {
+            jdbcTemplateMSDeal = new JdbcTemplateFactory().jdbcTemplateMSDeal();
+        }
+        return jdbcTemplateMSDeal;
     }
 }

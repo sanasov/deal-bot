@@ -18,28 +18,28 @@ public class DealDao {
     }
 
     public DealEntity findById(Long id) {
-        String sql = "SELECT * FROM ms_deal.deal WHERE ID = :id";
+        String sql = "SELECT * FROM deal WHERE ID = :id";
         List<DealEntity> entities = jdbcTemplate.query(
                 sql, Collections.singletonMap("id", id), new DealMapper());
         return entities.isEmpty() ? null : entities.get(0);
     }
 
     public List<DealHistoryEntity> findLastHistoryById(Long dealId) {
-        String sql = "SELECT * FROM ms_deal.deal_history WHERE DEAL_ID = :dealId ORDER BY ID DESC LIMIT 1";
+        String sql = "SELECT * FROM deal_history WHERE DEAL_ID = :dealId ORDER BY ID DESC LIMIT 1";
         List<DealHistoryEntity> entities = jdbcTemplate.query(
                 sql, Collections.singletonMap("dealId", dealId), new DealHistoryMapper());
         return entities;
     }
 
     public List<DealEntity> findByAuthor(Long authorId) {
-        String sql = "SELECT * FROM ms_deal.deal WHERE author_id = :authorId";
+        String sql = "SELECT * FROM deal WHERE author_id = :authorId";
         List<DealEntity> entities = jdbcTemplate.query(
                 sql, Collections.singletonMap("authorId", authorId), new DealMapper());
         return entities;
     }
 
     public List<DealEntity> findByIds(Set<Long> dealIds) {
-        String sql = "SELECT * FROM ms_deal.deal WHERE id IN (:dealIds)";
+        String sql = "SELECT * FROM deal WHERE id IN (:dealIds)";
         List<DealEntity> entities = jdbcTemplate.query(sql, Collections.singletonMap("dealIds", dealIds), new DealMapper());
         return entities;
     }
