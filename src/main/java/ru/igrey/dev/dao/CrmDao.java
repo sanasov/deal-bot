@@ -1,15 +1,9 @@
 package ru.igrey.dev.dao;
 
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import ru.igrey.dev.dao.mapper.DealMapper;
-import ru.igrey.dev.dao.mapper.DocumentMapper;
-import ru.igrey.dev.entity.DealEntity;
-import ru.igrey.dev.entity.DocumentEntity;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by sanasov on 26.04.2017.

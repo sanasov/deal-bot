@@ -12,6 +12,7 @@ import ru.igrey.dev.dao.JdbcTemplateFactory
 import ru.igrey.dev.dao.PXDao
 import ru.igrey.dev.service.CasService
 import ru.igrey.dev.service.DealService
+import ru.igrey.dev.service.NoncreditService
 import ru.igrey.dev.service.PersonService
 import ru.igrey.dev.service.ServiceHubService
 import java.net.Authenticator
@@ -21,6 +22,7 @@ object BeanConfig {
     private var dealBot: DealBot? = null
     private var casService: CasService? = null
     private var personService: PersonService? = null
+    private var noncreditService: NoncreditService? = null
     private var serviceHubService: ServiceHubService? = null
     private var dealService: DealService? = null
     private var dealDao: DealDao? = null
@@ -42,7 +44,7 @@ object BeanConfig {
         //            options.setProxyPort(PROXY_PORT);
         //            options.setProxyType(DefaultBotOptions.ProxyType.SOCKS5);
         options.maxThreads = 10
-        return DealBot(options, casService(), dealService(), personService())
+        return DealBot(options, casService(), dealService(), personService(), noncreditService())
     }
 
     private fun casService(): CasService {
@@ -50,6 +52,13 @@ object BeanConfig {
             casService = CasService()
         }
         return casService!!
+    }
+
+    private fun noncreditService(): NoncreditService {
+        if (noncreditService == null) {
+            noncreditService = NoncreditService()
+        }
+        return noncreditService!!
     }
 
     private fun serviceHubService() = ServiceHubService()

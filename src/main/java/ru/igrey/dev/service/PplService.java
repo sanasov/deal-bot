@@ -16,6 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static ru.igrey.dev.config.HttpClientConfig.CAS_TOKEN;
+import static ru.igrey.dev.config.HttpClientConfig.NONCREDIT_TOKEN;
 import static ru.igrey.dev.config.HttpClientConfig.NONCREDIT_URI;
 import static ru.igrey.dev.config.HttpClientConfig.NOTIFICATION_URI;
 
@@ -29,7 +30,7 @@ public class PplService {
         HttpPost request = new HttpPost(NONCREDIT_URI + "/srv/v1/ppl/persons/" + ppl.casId + "?status=" + ppl.status + "&notify=true" + (ppl.comment.equals("") ? "" : "&comment=" + URLEncoder.encode(ppl.comment, "UTF-8")));
         request.setHeader("Content-Type", "application/json");
         request.setHeader("Accept", "application/json");
-        request.setHeader("x-auth-token", "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJjYXNJZCI6MjcyNTY1LCJwZXJzb25JZCI6bnVsbCwicm9sZXMiOlsiUk9MRV9BQlNUUkFDVF9QQVJMSU5FX1VTRVIiLCJST0xFX0FETUlOIiwiUk9MRV9QQVJUTkVSSFVCX1VTRVIiLCJST0xFX1BPTF9QUklWQVRFX0FHRU5UIiwiUk9MRV9QT1JUQUxfVVNFUiJdLCJhY3RpdmUiOnRydWUsImlhdCI6MTU3NDE3NDcyM30.L0w10f1vOV8zLSk0XZtOY2RAp370j9yYU7xtm14xGhgsFRkY20ZL6Gh2VlrqN73cVpnBiSZT4IuIzbbBTBfsrvU9MLfGfUaDuz993Bjv1JB4lE3JuHeZu0FWMs5ViF83cmKSbyUv3ocOMSGopR_Z908xK3_VGZCoq9zktgmpn4Prva3FnxqmfkFuIQBHP2H7KuxyHustJNXIVmNXUwWC43rhtZLq1TMrdmEQUwqumx1FCe1GMHItonBHpXoSj9RCsOCEPvuLyLAnWASklPlZ0601Q76fV6okikFCJeC_PIPu3R3zaDuPBWqE3_vRW50uSLmWYN_lpS8ctAXNf-5Png");
+        request.setHeader("x-auth-token", NONCREDIT_TOKEN);
 
         try (CloseableHttpClient httpClient = HttpClients.createDefault();
              CloseableHttpResponse response = httpClient.execute(request)) {

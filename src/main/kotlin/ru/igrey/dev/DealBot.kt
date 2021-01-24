@@ -4,9 +4,11 @@ import mu.KLogging
 import org.telegram.telegrambots.bots.DefaultBotOptions
 import org.telegram.telegrambots.bots.TelegramLongPollingBot
 import org.telegram.telegrambots.meta.api.methods.AnswerCallbackQuery
+import org.telegram.telegrambots.meta.api.methods.send.SendDocument
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery
+import org.telegram.telegrambots.meta.api.objects.InputFile
 import org.telegram.telegrambots.meta.api.objects.Message
 import org.telegram.telegrambots.meta.api.objects.Update
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup
@@ -22,7 +24,9 @@ import ru.igrey.dev.constant.OperationType.valueOf
 import ru.igrey.dev.domain.UserDeals
 import ru.igrey.dev.service.CasService
 import ru.igrey.dev.service.DealService
+import ru.igrey.dev.service.NoncreditService
 import ru.igrey.dev.service.PersonService
+import java.io.File
 import kotlin.math.min
 
 /**
@@ -32,7 +36,8 @@ class DealBot(
     defaultBotOptions: DefaultBotOptions,
     private val casService: CasService,
     private val dealService: DealService,
-    private val personService: PersonService
+    private val personService: PersonService,
+    private val noncreditService: NoncreditService
 ) : TelegramLongPollingBot(defaultBotOptions) {
 
     override fun onUpdateReceived(update: Update) {
@@ -80,10 +85,8 @@ class DealBot(
                 message.chatId,
                 userDeals(messageText)
             )
-            currOperation == OperationType.PPL_DOCS_BY_MONTH_AND_CAS_ID -> sendTextMessage(
-                message.chatId,
-                userDeals(messageText)
-            )
+            currOperation == OperationType.PPL_IE_DOCS_BY_MONTH_AND_CAS_ID -> pplDocsForIE(message)
+            currOperation == OperationType.PPL_COMPANY_DOCS_BY_MONTH_AND_CAS_ID -> pplDocsForCompany(message)
             currOperation == OperationType.PERSON_INFO_BY_FIO -> sendTextMessage(
                 message.chatId,
                 personService.getPersonInfo(messageText).toString()
@@ -100,7 +103,34 @@ class DealBot(
         else UserDeals(cas, dealService.getDeals(cas.id)).toString()
     }
 
-    private fun pplDocs(messageText: String) {
+    private fun pplDocsForIE(message: Message) {
+        val casIdMoth = message.text.split("\\s+".toRegex())
+        val casId = casIdMoth[0]
+        val month = casIdMoth[1]
+        noncreditService.getIEDocuments(casId, month, "act")?.let {
+            sendDocument(message.chatId, it, "Акт ${casId}_$month.pdf")
+        }
+        noncreditService.getIEDocuments(casId, month, "reestr")?.let {
+            sendDocument(message.chatId, it, "Реестр к акту ${casId}_$month.pdf")
+        }
+        noncreditService.getIEDocuments(casId, month, "payment")?.let {
+            sendDocument(message.chatId, it, "Счет на оплату ${casId}_$month.pdf")
+        }
+    }
+
+    private fun pplDocsForCompany(message: Message) {
+        val companyIdMoth = message.text.split("\\s+".toRegex())
+        val companyId = companyIdMoth[0]
+        val month = companyIdMoth[1]
+        noncreditService.getCompanyDocuments(companyId, month, "act")?.let {
+            sendDocument(message.chatId, it, "Акт ${companyId}_$month.pdf")
+        }
+        noncreditService.getCompanyDocuments(companyId, month, "reestr")?.let {
+            sendDocument(message.chatId, it, "Реестр к акту ${companyId}_$month.pdf")
+        }
+        noncreditService.getCompanyDocuments(companyId, month, "payment")?.let {
+            sendDocument(message.chatId, it, "Счет на оплату ${companyId}_$month.pdf")
+        }
     }
 
     private fun parseIds(idsAsString: String): Set<Long> =
@@ -120,6 +150,19 @@ class DealBot(
         } catch (e: TelegramApiException) {
             logger.error(e.message)
             logger.info(responseMessage)
+        }
+    }
+
+    private fun sendDocument(chatId: Long, file: File, fileName: String) {
+        val sendDocument = SendDocument()
+        val inputFile = InputFile(file, fileName)
+
+        sendDocument.chatId = chatId.toString()
+        sendDocument.document = inputFile
+        try {
+            execute(sendDocument)
+        } catch (e: TelegramApiException) {
+            logger.error(e.message)
         }
     }
 
