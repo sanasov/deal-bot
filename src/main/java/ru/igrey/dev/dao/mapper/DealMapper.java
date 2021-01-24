@@ -18,7 +18,8 @@ public class DealMapper implements RowMapper {
                 rs.getLong("mik_id"),
                 rs.getLong("office_id"),
                 rs.getLong("type_id"),
-                rs.getBoolean("archived")
+                rs.getBoolean("archived"),
+                rs.getTimestamp("created_time").toLocalDateTime()
         );
     }
 }

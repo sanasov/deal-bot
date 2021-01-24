@@ -21,17 +21,17 @@ public class DocumentDao {
     }
 
     public List<DocumentEntity> findAllNotClientDocsByDealId(Long dealId) {
-        String sql = "SELECT * FROM deal_document WHERE DEAL_ID = :dealId AND DOCUMENT_TYPE_ID <> 20750";
+        String sql = "SELECT * FROM ms_deal.deal_document WHERE DEAL_ID = :dealId AND DOCUMENT_TYPE_ID <> 20750";
         return jdbcTemplate.query(sql, Collections.singletonMap("dealId", dealId), new DocumentMapper());
     }
 
     public Integer countUploadedDocuments(Long dealId) {
-        String sql = "SELECT count(*) FROM deal_document WHERE DEAL_ID = :dealId AND DOCUMENT_TYPE_ID = 20750 AND modified_by <> 1";
+        String sql = "SELECT count(*) FROM ms_deal.deal_document WHERE DEAL_ID = :dealId AND DOCUMENT_TYPE_ID = 20750 AND modified_by <> 1";
         return jdbcTemplate.queryForInt(sql, Collections.singletonMap("dealId", dealId));
     }
 
     public List<DocumentEntity> findByDealId(Long dealId) {
-        String sql = "SELECT * FROM deal_document WHERE DEAL_ID = :dealId";
+        String sql = "SELECT * FROM ms_deal.deal_document WHERE DEAL_ID = :dealId";
         return jdbcTemplate.query(sql, Collections.singletonMap("dealId", dealId), new DocumentMapper());
     }
 

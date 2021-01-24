@@ -1,6 +1,5 @@
 package ru.igrey.dev.dao;
 
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import ru.igrey.dev.dao.mapper.RisasRequisitionMapper;
 import ru.igrey.dev.entity.RisasRequisitionEntity;
