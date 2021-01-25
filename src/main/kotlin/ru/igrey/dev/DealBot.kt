@@ -20,7 +20,6 @@ import ru.igrey.dev.constant.Command
 import ru.igrey.dev.constant.Dictionaries.CRM_TASKS
 import ru.igrey.dev.constant.Dictionaries.SERVICES
 import ru.igrey.dev.constant.OperationType
-import ru.igrey.dev.constant.OperationType.valueOf
 import ru.igrey.dev.domain.UserDeals
 import ru.igrey.dev.service.CasService
 import ru.igrey.dev.service.DealService
@@ -199,7 +198,7 @@ class DealBot(
     private fun handleButtonClick(query: CallbackQuery) {
         val answer = AnswerCallbackQuery()
         answer.callbackQueryId = query.id
-        val operationType = valueOf(query.data)
+        val operationType = OperationType.valueOf(query.data)
         logger.info("Button command: $operationType")
         currOperation = operationType
         answer.text = operationType.name

@@ -1,9 +1,9 @@
-package ru.igrey.dev.constant;
+package ru.igrey.dev.constant
 
 /**
  * Created by sanasov on 09.04.2017.
  */
-public enum Emoji {
+enum class Emoji private constructor(private var firstChar: Char?, private var secondChar: Char?) {
     // Emoticones group
     GRINNING_FACE_WITH_SMILING_EYES('\uD83D', '\uDE01'),
     FACE_WITH_TEARS_OF_JOY('\uD83D', '\uDE02'),
@@ -171,41 +171,36 @@ public enum Emoji {
     FIRE('\uD83D', '\uDD25'),
     LEFT_ARROW('\u2B05', null);
 
-    Character firstChar;
-    Character secondChar;
-
-    Emoji(Character firstChar, Character secondChar) {
-        this.firstChar = firstChar;
-        this.secondChar = secondChar;
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
+    override fun toString(): String {
+        val sb = StringBuilder()
 
         if (this.firstChar != null) {
-            sb.append(this.firstChar);
+            sb.append(this.firstChar.toString())
         }
         if (this.secondChar != null) {
-            sb.append(this.secondChar);
+            sb.append(this.secondChar.toString())
         }
 
-        return sb.toString();
+        return sb.toString()
     }
 
-    public String toString(Integer times) {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < times; i++) {
-            sb.append(toString());
+    fun toString(times: Int = 1): String {
+        val sb = StringBuilder()
+        for (i in 0 until times) {
+            sb.append(toString())
         }
-        return sb.toString();
+        return sb.toString()
     }
 
-    public static void main(String[] args) {
-        System.out.println(FIRE.toString());
-        System.out.println(CROSS_MARK.toString());
-        System.out.println(LEFT_ARROW);
-        System.out.println(TRASH);
+    companion object {
+
+        @JvmStatic
+        fun main(args: Array<String>) {
+            println(FIRE.toString())
+            println(CROSS_MARK.toString())
+            println(LEFT_ARROW)
+            println(TRASH)
+        }
     }
 }
 
