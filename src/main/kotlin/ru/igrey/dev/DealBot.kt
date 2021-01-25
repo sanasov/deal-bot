@@ -20,12 +20,14 @@ import ru.igrey.dev.constant.Command
 import ru.igrey.dev.constant.Dictionaries.CRM_TASKS
 import ru.igrey.dev.constant.Dictionaries.SERVICES
 import ru.igrey.dev.constant.OperationType
+import ru.igrey.dev.domain.PplDocumentType
 import ru.igrey.dev.domain.UserDeals
 import ru.igrey.dev.service.CasService
 import ru.igrey.dev.service.DealService
 import ru.igrey.dev.service.NoncreditService
 import ru.igrey.dev.service.PersonService
 import java.io.File
+import java.net.UnknownHostException
 import kotlin.math.min
 
 /**
@@ -61,8 +63,12 @@ class DealBot(
     private fun handleIncomingMessage(message: Message) {
         logger.info("Incoming message: " + message.text)
         logger.info("From user: " + message.from + "; chatId: " + message.chat.id)
-        if (message.chat.isUserChat!! && message.text != null) {
-            handlePrivateIncomingMessage(message)
+        try {
+            if (message.chat.isUserChat!! && message.text != null) {
+                handlePrivateIncomingMessage(message)
+            }
+        } catch (e: UnknownHostException) {
+            sendTextMessage(message.chatId, "Бот выключен")
         }
     }
 
@@ -106,30 +112,32 @@ class DealBot(
         val casIdMoth = message.text.split("\\s+".toRegex())
         val casId = casIdMoth[0]
         val month = casIdMoth[1]
-        noncreditService.getIEDocuments(casId, month, "act")?.let {
-            sendDocument(message.chatId, it, "Акт ${casId}_$month.pdf")
+        var isEmpty = false
+        PplDocumentType.values().forEach { type ->
+            val file = noncreditService.getIEDocuments(casId, month, type)
+            if (file != null) sendDocument(message.chatId, file, type.fileName(casId, month))
+            else isEmpty = true
         }
-        noncreditService.getIEDocuments(casId, month, "reestr")?.let {
-            sendDocument(message.chatId, it, "Реестр к акту ${casId}_$month.pdf")
-        }
-        noncreditService.getIEDocuments(casId, month, "payment")?.let {
-            sendDocument(message.chatId, it, "Счет на оплату ${casId}_$month.pdf")
-        }
+        if (isEmpty) sendTextMessage(
+            message.chatId,
+            "Пусто. Возможно не было выплат за этот месяц."
+        )
     }
 
     private fun pplDocsForCompany(message: Message) {
         val companyIdMoth = message.text.split("\\s+".toRegex())
         val companyId = companyIdMoth[0]
         val month = companyIdMoth[1]
-        noncreditService.getCompanyDocuments(companyId, month, "act")?.let {
-            sendDocument(message.chatId, it, "Акт ${companyId}_$month.pdf")
+        var isEmpty = false
+        PplDocumentType.values().forEach { type ->
+            val file = noncreditService.getCompanyDocuments(companyId, month, type)
+            if (file != null) sendDocument(message.chatId, file, type.fileName(companyId, month))
+            else isEmpty = true
         }
-        noncreditService.getCompanyDocuments(companyId, month, "reestr")?.let {
-            sendDocument(message.chatId, it, "Реестр к акту ${companyId}_$month.pdf")
-        }
-        noncreditService.getCompanyDocuments(companyId, month, "payment")?.let {
-            sendDocument(message.chatId, it, "Счет на оплату ${companyId}_$month.pdf")
-        }
+        if (isEmpty) sendTextMessage(
+            message.chatId,
+            "Пусто. Возможно не было выплат за этот месяц."
+        )
     }
 
     private fun parseIds(idsAsString: String): Set<Long> =
