@@ -42,7 +42,7 @@ object BeanConfig {
             }
         })
         val options = DefaultBotOptions()
-        options.setProxyPort(PROXY_PORT);
+        options.setProxyPort(PROXY_PORT)
         options.maxThreads = 10
         return DealBot(options, casService(), dealService(), personService(), noncreditService())
     }
