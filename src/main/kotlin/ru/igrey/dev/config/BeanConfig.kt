@@ -3,7 +3,9 @@ package ru.igrey.dev.config
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate
 import org.telegram.telegrambots.bots.DefaultBotOptions
 import ru.igrey.dev.DealBot
+import ru.igrey.dev.config.DealProps.PROXY_HOST
 import ru.igrey.dev.config.DealProps.PROXY_PASSWORD
+import ru.igrey.dev.config.DealProps.PROXY_PORT
 import ru.igrey.dev.config.DealProps.PROXY_USER
 import ru.igrey.dev.dao.CrmDao
 import ru.igrey.dev.dao.DealDao
@@ -42,7 +44,6 @@ object BeanConfig {
         val options = DefaultBotOptions()
         //            options.setProxyHost(PROXY_HOST);
         //            options.setProxyPort(PROXY_PORT);
-        //            options.setProxyType(DefaultBotOptions.ProxyType.SOCKS5);
         options.maxThreads = 10
         return DealBot(options, casService(), dealService(), personService(), noncreditService())
     }
